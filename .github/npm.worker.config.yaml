@@ -1,6 +1,6 @@
 clean: true
-issue: 1
 init: false
+issue: 1
 path: ./
 install:
   - "@actions/github"
