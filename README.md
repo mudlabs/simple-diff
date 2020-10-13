@@ -1,4 +1,4 @@
-# Kiss Diff
+# Diffy
 A super simple diff checker for your GitHub workflow.
 
 
@@ -17,17 +17,17 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Kiss Diff
-        uses: mudlabs/kiss-diff@v1.0.0
+      - name: Diffy
+        uses: mudlabs/diffy@v1.0.0
         with:
           path: path/to/folder
-        id: diff
+        id: diffy
       - run: |
-          echo 'Was folder added: ${{ steps.diff.output.added }}'
-          echo 'Was folder modified: ${{ steps.diff.output.modified }}'
-          echo 'Was folder removed: ${{ steps.diff.output.removed }}'
-          echo 'Was folder renamed: ${{ steps.diff.output.renamed }}'
-          echo 'What's the folders name: ${{ steps.diff.output.name }}'   
+          echo 'Was folder added: ${{ steps.diffy.output.added }}'
+          echo 'Was folder modified: ${{ steps.diffy.output.modified }}'
+          echo 'Was folder removed: ${{ steps.diffy.output.removed }}'
+          echo 'Was folder renamed: ${{ steps.diffy.output.renamed }}'
+          echo 'What's the folders name: ${{ steps.diffy.output.name }}'   
 ```
 
 ## Example Case
@@ -49,10 +49,10 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Kiss Diff
-        uses: mudlabs/kiss-diff@v1.0.0
-        id: diff
+        uses: mudlabs/diffy@v1.0.0
+        id: diffy
       - run: exit 1
-        if: steps.diff.outputs.removed
+        if: steps.diffy.outputs.removed
   
   # Other jobs to run...
 ```
