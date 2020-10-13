@@ -14,3 +14,5 @@ jobs:
           ref: ${{ github.ref }}
       - name: NPM Worker
         uses: mudlabs/npm-worker@v1.3.0
+      - name: Add & Commit
+        uses: EndBug/add-and-commit@v5.1.0
