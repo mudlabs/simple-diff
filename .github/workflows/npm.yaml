@@ -9,7 +9,7 @@ jobs:
   manage:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/chackout@v2
+      - uses: actions/checkout@v2
         with:
           ref: ${{ github.ref }}
       - name: NPM Worker
