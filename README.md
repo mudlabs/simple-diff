@@ -33,6 +33,8 @@ jobs:
 ## Example Case
 You have a workflow that only runs on a push event to a file path. But you don't want it to run if the file was `removed` _(deleted)_.
 
+Note that in the example code we don't specify the `path` input. If you tie the workflow to events on a path, you can forgo the `path` input. Assuming it's the same path you want to _diff_.
+
 ```yaml
 name: My File Workflow
 
@@ -51,4 +53,6 @@ jobs:
         id: diff
       - run: exit 1
         if: steps.diff.outputs.removed
+  
+  # Other jobs to run...
 ```
