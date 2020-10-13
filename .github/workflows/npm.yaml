@@ -1,0 +1,16 @@
+name: NPM Worker
+
+on:
+  push:
+    paths:
+      - .github/npm.worker.config.yaml
+      
+jobs:
+  manage:
+    runs-on: ubuntu-latest:
+    steps:
+      - uses: actions/chackout@v2
+        with:
+          ref: ${{ github.ref }}
+      - name: NPM Worker
+        uses: mudlabs/npm-worker@v1.3.0
