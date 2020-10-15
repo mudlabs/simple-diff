@@ -1,0 +1,22 @@
+name: Test Diffy
+
+on:
+  push:
+  
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          ref: ${{ github.ref }}
+      - name: Diffy
+          uses: ./
+          with:
+            path: README.md
+      - run: |
+          echo "${{ steps.diffy.outputs.added }}"
+          echo "${{ steps.diffy.outputs.modified }}"
+          echo "${{ steps.diffy.outputs.removed }}"
+          echo "${{ steps.diffy.outputs.renamed }}"
+          echo "${{ steps.diffy.outputs.name }}"
