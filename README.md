@@ -1,5 +1,5 @@
 # Diffy
-A super simple diff checker for your GitHub workflow.
+A super simple diff checker for your GitHub workflow..
 
 
 Very simple, you provide the action with a `path` to a _file_ or _folder_, and it tells you if the file was `added`, `modified`, `removed`, or `renamed`. It will also output the items `name`, particularly usefull if it was just `renamed`.
