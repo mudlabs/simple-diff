@@ -22,15 +22,13 @@ const getHead = name => data => name === "pull_request" ? data.pull_request.head
     if (response.status !== 200) throw `The API request for this ${github.context.eventName} event returned ${response.status}, expected 200.`;
     if (response.data.status !== "ahead") throw `The head commit for this ${github.context.eventName} event is not ahead of the base commit.`;
     
+    let file;
     const files = response.data.files; 
     const path = core.getInput("path");
     const target_name = path.split("/").pop();
     const regexp = new RegExp(target_name);
-    const file = files.some(_file => {
-      if (regexp.test(_file.filename)) {
-        console.log(_file);
-        return true; 
-      } return false);
+    
+    files.some(_file => regexp.test(_file.filename) ? file = _file : false)
     
     if (!file) throw `None of the files in this commits diff tree match the provided file (${path}).`;
     
