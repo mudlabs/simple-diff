@@ -2,8 +2,8 @@ const core = require("@actions/core");
 const github = require("@actions/github");
 
 const unsupportedEvent = name => name !== "pull_request" && name !== "push" ? true : false;
-const getBase = name = data => name === "pull_request" ? data.pull_request.base.sha : data.before;
-const getHead = name = data => name === "pull_request" ? data.pull_request.head.sha : data.after;
+const getBase = name => data => name === "pull_request" ? data.pull_request.base.sha : data.before;
+const getHead = name => data => name === "pull_request" ? data.pull_request.head.sha : data.after;
 
 (async function(){
   try {
