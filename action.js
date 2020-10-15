@@ -26,7 +26,7 @@ const getHead = name => data => name === "pull_request" ? data.pull_request.head
     const path = core.getInput("path");
     const target_name = path.split("/").pop();
     const regexp = new RegExp(target_name);
-    const file = files.some(file => regexp.test(file.filename) ? file : false);
+    const file = files.some(_file => regexp.test(_file.filename) ? _file : false);
     
     if (!file) throw `None of the files in this commits diff tree match the provided file (${path}).`;
     
