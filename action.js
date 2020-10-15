@@ -7,7 +7,6 @@ const getHead = name = data => name === "pull_request" ? data.pull_request.head.
 
 (async function(){
   try {
-    const path = core.getInput("path");
     const token = core.getInput("token");
     const repo = github.context.repo.repo;
     const owner = github.context.repo.owner;
@@ -23,12 +22,13 @@ const getHead = name = data => name === "pull_request" ? data.pull_request.head.
     if (response.status !== 200) throw `The API request for this ${context.eventName} event returned ${response.status}, expected 200.`;
     if (respose.data.status !== "ahead") throw `The head commit for this ${context.eventName} event is not ahead of the base commit.`;
     
-    const files = response.data.files;
+    const files = response.data.files; 
+    const path = core.getInput("path");
+    const target_name = path.split("/").pop();
+    const regexp = new RegExp(target_name);
+    const file = files.some(file => regexp.test(file.filename) ? file.status : false);
     
-    // find the target file/folder
-    const file = files;
-    
-    if (!file) throw `None of the files in this commits diff tree match the provided file (${path}).`;
+     if (!file) throw `None of the files in this commits diff tree match the provided file (${path}).`;
     
     core.setOutput("added", file.status === "added");
     core.setOutput("modified", file.status === "modified");
