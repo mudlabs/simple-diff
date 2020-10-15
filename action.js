@@ -28,12 +28,13 @@ const getHead = name => data => name === "pull_request" ? data.pull_request.head
     const target_name = path.split("/").pop();
     const regexp = new RegExp(target_name);
     
+    // Can make this better.
+    // The _file.contents_url can be parsed to check this _file is the one we want
+    // because it's possible to have to files with the same name, but not paths.
     files.some(_file => regexp.test(_file.filename) ? file = _file : false)
     
     if (!file) throw `None of the files in this commits diff tree match the provided file (${path}).`;
-    
-    console.log("file", file);
-    
+        
     core.setOutput("added", file.status === "added");
     core.setOutput("modified", file.status === "modified");
     core.setOutput("removed", file.status === "removed");
