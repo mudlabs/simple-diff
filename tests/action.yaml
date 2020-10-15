@@ -1,0 +1,5 @@
+name: Test Diffy
+description: Test action for Diffy
+runs:
+  using: node12
+  main: action.js
