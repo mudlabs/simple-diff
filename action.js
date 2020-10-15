@@ -19,8 +19,8 @@ const getHead = name => data => name === "pull_request" ? data.pull_request.head
     const head = getHead(event_name)(github.context.payload);
     const response = await octokit.repos.compareCommits({ base, head, owner, repo });
     
-    if (response.status !== 200) throw `The API request for this ${context.eventName} event returned ${response.status}, expected 200.`;
-    if (respose.data.status !== "ahead") throw `The head commit for this ${context.eventName} event is not ahead of the base commit.`;
+    if (response.status !== 200) throw `The API request for this ${github.context.eventName} event returned ${response.status}, expected 200.`;
+    if (response.data.status !== "ahead") throw `The head commit for this ${github.context.eventName} event is not ahead of the base commit.`;
     
     const files = response.data.files; 
     const path = core.getInput("path");
