@@ -11,9 +11,9 @@ jobs:
         with:
           ref: ${{ github.ref }}
       - name: Diffy
-          uses: ./
-          with:
-            path: README.md
+        uses: ./
+        with:
+          path: README.md
       - run: |
           echo "${{ steps.diffy.outputs.added }}"
           echo "${{ steps.diffy.outputs.modified }}"
