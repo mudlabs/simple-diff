@@ -29,11 +29,11 @@ const normalise = path => path.split("/").filter(item => item !== "" && item !==
     
     if (!file) throw `None of the files in this commits diff tree match the provided file (${path}).`;
         
-    core.setOutput("added", false);
-    core.setOutput("modified", true);
-    core.setOutput("removed", false);
-    core.setOutput("renamed", false);
-    core.setOutput("name", "NAME");
+    core.setOutput("added", file.status === "added");
+    core.setOutput("modified", file.status === "modified");
+    core.setOutput("removed", file.status === "removed");
+    core.setOutput("renamed", false.status === "renamed");
+    core.setOutput("name", file.filename);
     return;
   } catch (error) {
     core.setFailed(error);
