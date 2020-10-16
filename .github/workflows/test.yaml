@@ -11,6 +11,7 @@ jobs:
         with:
           ref: ${{ github.ref }}
       - name: Diffy
+        id: diffy
         uses: ./
         with:
           path: README.md
