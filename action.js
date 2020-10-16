@@ -4,6 +4,7 @@ const github = require("@actions/github");
 const unsupportedEvent = name => name !== "pull_request" && name !== "push" ? true : false;
 const getBase = name => data => name === "pull_request" ? data.pull_request.base.sha : data.before;
 const getHead = name => data => name === "pull_request" ? data.pull_request.head.sha : data.after;
+const normalise = path => path.split("/").filter(item => item !== "" && item !== ".").join("/");
 
 (async function(){
   try {
@@ -22,16 +23,9 @@ const getHead = name => data => name === "pull_request" ? data.pull_request.head
     if (response.status !== 200) throw `The API request for this ${github.context.eventName} event returned ${response.status}, expected 200.`;
     if (response.data.status !== "ahead") throw `The head commit for this ${github.context.eventName} event is not ahead of the base commit.`;
     
-    let file;
     const files = response.data.files; 
-    const path = core.getInput("path");
-    const target_name = path.split("/").pop();
-    const regexp = new RegExp(target_name);
-    
-    // Can make this better.
-    // The _file.contents_url can be parsed to check this _file is the one we want
-    // because it's possible to have to files with the same name, but not paths.
-    files.some(_file => regexp.test(_file.filename) ? file = _file : false)
+    const path = normalise(core.getInput("path"));
+    const file = files.find(file => file.contents_url.indexOf(`contents/${path}`) !== -1);
     
     if (!file) throw `None of the files in this commits diff tree match the provided file (${path}).`;
         
