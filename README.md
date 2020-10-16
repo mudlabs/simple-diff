@@ -54,5 +54,5 @@ jobs:
       - run: exit 1
         if: steps.diffy.outputs.removed
   
-  # Other jobs to run...
+  # Other jobs will run only if file.ext was NOT removed.
 ```
