@@ -13,7 +13,7 @@ const normalise = path => path.split("/").filter(item => item !== "" && item !==
     const owner = github.context.repo.owner;
     const event_name = github.context.eventName;
     const octokit = github.getOctokit(token, { required: true });
-    
+    console.log(github.event_path, github.context.event_path, github, github.context)
     if (unsupportedEvent(event_name)) throw `This event (${event_name}) is unsupported. Kiss Diff only supports PUSH and PR events.`;
   
     const base = getBase(event_name)(github.context.payload);
