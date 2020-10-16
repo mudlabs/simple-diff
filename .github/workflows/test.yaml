@@ -3,7 +3,7 @@ name: Test Diffy
 on:
   push:
     paths: 
-      - tests/
+      - ./tests/*
   
 jobs:
   test:
