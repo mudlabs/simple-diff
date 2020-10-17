@@ -37,13 +37,12 @@ const failed = message => { throw message; }
       core.setOutput("renamed", false.status === "renamed");
       core.setOutput("name", file.filename);
       return;
+    } else if (strict === true) {
+      throw `None of the files in this commits diff tree match the provided file (${path}).`;
+    } else {
+      console.log(`None of the files in this commits diff tree match the provided file (${path}).`);
     }
-    
-    console.log("strict", strict);
-    strict 
-      ? failed(`None of the files in this commits diff tree match the provided file (${path}).`)
-      : console.log(`None of the files in this commits diff tree match the provided file (${path}).`);
-        
+       
   } catch (error) {
     core.setFailed(error);
   }
