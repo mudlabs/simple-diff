@@ -1,9 +1,9 @@
-[![github-action]](https://github.com/marketplace/actions/diffy)
+[![github-action]](https://github.com/marketplace/actions/simple-diff)
 &nbsp;
 [![github-sponsor]](https://github.com/sponsors/mudlabs)
 
 
-# Diffy
+# Simple Diff
 A super simple diff checker for your GitHub workflow..
 
 
@@ -18,8 +18,8 @@ Very simple, you provide the action with a `path` to a _file_ or _folder_, and i
 
 ## Usage
 ```yaml
-- name: Diffy
-  uses: mudlabs/diffy@v1.0.0
+- name: Simple Diff
+  uses: mudlabs/simple-diff@v1.0.0
   with:
     path: path/to/file   
 ```
