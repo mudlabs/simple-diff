@@ -39,6 +39,7 @@ const failed = message => { throw message; }
       return;
     }
     
+    console.log("strict", strict);
     strict 
       ? failed(`None of the files in this commits diff tree match the provided file (${path}).`)
       : console.log(`None of the files in this commits diff tree match the provided file (${path}).`);
