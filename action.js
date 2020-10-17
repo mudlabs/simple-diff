@@ -17,7 +17,7 @@ const failed = massage => { throw message; };
     const event_name = github.context.eventName;
     const octokit = github.getOctokit(token, { required: true });
 
-    if (unsupportedEvent(event_name)) throw `This event (${event_name}) is unsupported. Diffy only supports PUSH and PR events.`;
+    if (unsupportedEvent(event_name)) throw `This event (${event_name}) is unsupported. Simple Diff only supports PUSH and PR events.`;
   
     const base = getBase(event_name)(github.context.payload);
     const head = getHead(event_name)(github.context.payload);
