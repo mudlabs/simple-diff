@@ -1,4 +1,4 @@
-name: Diffy
+name: Simple Diff
 description: Returns a set of true/false values for the diff state of a file or folder.
 author: mudlabs
 branding:
