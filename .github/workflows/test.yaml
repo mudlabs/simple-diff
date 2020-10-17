@@ -1,4 +1,4 @@
-name: Test Diffy
+name: Test Diff
 
 on:
   push:
@@ -10,15 +10,15 @@ jobs:
       - uses: actions/checkout@v2
         with:
           ref: ${{ github.ref }}
-      - name: Diffy
-        id: diffy
+      - name: Simple Diff
+        id: diff
         uses: ./
         with:
           path: README.md
           strict: false
       - run: |
-          echo "${{ steps.diffy.outputs.added }}"
-          echo "${{ steps.diffy.outputs.modified }}"
-          echo "${{ steps.diffy.outputs.removed }}"
-          echo "${{ steps.diffy.outputs.renamed }}"
-          echo "${{ steps.diffy.outputs.name }}"
+          echo "${{ steps.diff.outputs.added }}"
+          echo "${{ steps.diff.outputs.modified }}"
+          echo "${{ steps.diff.outputs.removed }}"
+          echo "${{ steps.diff.outputs.renamed }}"
+          echo "${{ steps.diff.outputs.name }}"
