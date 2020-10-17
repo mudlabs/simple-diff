@@ -1,3 +1,8 @@
+[![github-action]](https://github.com/marketplace/actions/diffy)
+&nbsp;
+[![github-sponsor]](https://github.com/sponsors/mudlabs)
+
+
 # Diffy
 A super simple diff checker for your GitHub workflow..
 
@@ -60,3 +65,6 @@ jobs:
   
   # Other jobs will run only if file.ext was NOT removed.
 ```
+
+[github-action]: https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/mudlabs/shields.io.endpoint/badges/github-action.json
+[github-sponsor]: https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/mudlabs/shields.io.endpoint/badges/github-sponsor.json
