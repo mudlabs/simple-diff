@@ -55,13 +55,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Diffy
-        id: diffy
-        uses: mudlabs/diffy@v1.0.0
+      - name: Simple Diff
+        id: diff
+        uses: mudlabs/simple-diff@v1.0.0
         with:
           path: path/to/my/file.ext
       - run: exit 1
-        if: steps.diffy.outputs.removed
+        if: steps.diff.outputs.removed
   
   # Other jobs will run only if file.ext was NOT removed.
 ```
