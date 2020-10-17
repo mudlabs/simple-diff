@@ -15,6 +15,7 @@ jobs:
         uses: ./
         with:
           path: README.md
+          strict: false
       - run: |
           echo "${{ steps.diffy.outputs.added }}"
           echo "${{ steps.diffy.outputs.modified }}"
