@@ -5,6 +5,7 @@ const unsupportedEvent = name => name !== "pull_request" && name !== "push" ? tr
 const getBase = name => data => name === "pull_request" ? data.pull_request.base.sha : data.before;
 const getHead = name => data => name === "pull_request" ? data.pull_request.head.sha : data.after;
 const normalise = path => path.split("/").filter(item => item !== "" && item !== ".").join("/");
+const failed = massage => { throw message; };
 
 (async function(){
   try {
@@ -30,16 +31,19 @@ const normalise = path => path.split("/").filter(item => item !== "" && item !==
     const file = files.find(file => file.contents_url.indexOf(`contents/${target}`) !== -1);
     
     if (file) {
+      console.log("file", file);
       core.setOutput("added", file.status === "added");
       core.setOutput("modified", file.status === "modified");
       core.setOutput("removed", file.status === "removed");
       core.setOutput("renamed", false.status === "renamed");
       core.setOutput("name", file.filename);
       return;
-    } else if (strict) throw `None of the files in this commits diff tree match the provided file (${path}).`;
+    }
     
-    console.log(`None of the files in this commits diff tree match the provided file (${path}).`);
-       
+    strict === true
+      ? failed(`None of the files in this commits diff tree match the provided file (${path}).`)
+      : console.log(`None of the files in this commits diff tree match the provided file (${path}).`);
+           
   } catch (error) {
     core.setFailed(error);
   }
