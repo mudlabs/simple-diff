@@ -1,2 +1,4 @@
-github: [ mudlabs ]
-custom: [ https://www.paypal.com/paypalme/mudlabs ]
+github: 
+  - mudlabs
+custom:
+  - "https://www.paypal.me/mudlabs"
