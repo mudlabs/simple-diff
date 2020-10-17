@@ -1,5 +1,5 @@
-name: Kiss Diff
-description: Keeps It Simple Stupid Diff check, returns a set of true/false values for the diff state of a file or folder.
+name: Diffy
+description: Returns a set of true/false values for the diff state of a file or folder.
 author: mudlabs
 branding:
   icon: copy
