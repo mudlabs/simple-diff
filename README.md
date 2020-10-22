@@ -61,7 +61,7 @@ jobs:
         with:
           path: path/to/my/file.ext
       - run: exit 1
-        if: steps.diff.outputs.removed
+        if: steps.diff.outputs.removed == true
   
   # Other jobs will run only if file.ext was NOT removed.
 ```
