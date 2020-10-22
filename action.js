@@ -32,9 +32,9 @@ const toBoolean = value => value.toLowerCase() == "true";
     files.forEach(file => {
       console.log(file.contents_url);
       console.log(file.contents_url.indexOf(`contents/${target}`));
-      const d = decodeURI(file.contents_url);
+      const d = decodeURIComponent(file.contents_url);
       console.log(d);
-      console.log(d.indexOf(`contents/${target}`);
+      console.log(d.indexOf(`contents/${target}`));
     });
     const file = files.find(file => file.contents_url.indexOf(`contents/${target}`) !== -1);
     
