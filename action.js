@@ -29,7 +29,13 @@ const toBoolean = value => value.toLowerCase() == "true";
     const target = normalise(path);
     const files = response.data.files; 
     console.log("Target file", target);
-    files.forEach(file => console.log(file.contents_url, file.contents_url.indexOf(`contents/${target}`)));
+    files.forEach(file => {
+      console.log(file.contents_url);
+      console.log(file.contents_url.indexOf(`contents/${target}`));
+      const d = decodeURI(file.contents_url);
+      console.log(d);
+      console.log(d.indexOf(`contents/${target}`);
+    });
     const file = files.find(file => file.contents_url.indexOf(`contents/${target}`) !== -1);
     
     if (file) {
