@@ -14,7 +14,7 @@ jobs:
         id: diff
         uses: ./
         with:
-          path: README.md
+          path: "Funding(9th edition).xml"
           strict: false
       - run: |
           echo "${{ steps.diff.outputs.added }}"
