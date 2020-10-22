@@ -66,5 +66,5 @@ jobs:
   # Other jobs will run only if file.ext was NOT removed.
 ```
 
-[github-action]: https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/mudlabs/shields.io.endpoint/badges/github-action.json
-[github-sponsor]: https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/mudlabs/shields.io.endpoint/badges/github-sponsor.json
+[github-action]: https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/mudlabs/shieldsio/endpoint/badges/github-action.json
+[github-sponsor]: https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/mudlabs/shieldsio/endpoint/badges/github-sponsor.json
