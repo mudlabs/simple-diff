@@ -31,7 +31,6 @@ const failed = massage => { throw message; };
     const file = files.find(file => file.contents_url.indexOf(`contents/${target}`) !== -1);
     
     if (file) {
-      console.log("file", file);
       core.setOutput("added", file.status === "added");
       core.setOutput("modified", file.status === "modified");
       core.setOutput("removed", file.status === "removed");
