@@ -17,8 +17,8 @@ jobs:
           path: README.md
           strict: false
       - run: |
-          echo "${{ steps.diff.outputs.added }}"
-          echo "${{ steps.diff.outputs.modified }}"
-          echo "${{ steps.diff.outputs.removed }}"
-          echo "${{ steps.diff.outputs.renamed }}"
-          echo "${{ steps.diff.outputs.name }}"
+          echo "Added? ${{ steps.diff.outputs.added }}"
+          echo "Modified? ${{ steps.diff.outputs.modified }}"
+          echo "Removed? ${{ steps.diff.outputs.removed }}"
+          echo "Renamed? ${{ steps.diff.outputs.renamed }}"
+          echo "Name: ${{ steps.diff.outputs.name }}"
