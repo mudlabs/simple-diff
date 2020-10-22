@@ -5,16 +5,16 @@ const unsupportedEvent = name => name !== "pull_request" && name !== "push" ? tr
 const getBase = name => data => name === "pull_request" ? data.pull_request.base.sha : data.before;
 const getHead = name => data => name === "pull_request" ? data.pull_request.head.sha : data.after;
 const normalise = path => path.split("/").filter(item => item !== "" && item !== ".").join("/");
-const failed = massage => { throw message; };
+const toBoolean = value => value.toLowerCase() == "true";
 
 (async function(){
   try {
     const path = core.getInput("path");
     const token = core.getInput("token");
-    const strict = core.getInput("strict");
     const repo = github.context.repo.repo;
     const owner = github.context.repo.owner;
     const event_name = github.context.eventName;
+    const strict = toBoolean(core.getInput("strict"));
     const octokit = github.getOctokit(token, { required: true });
 
     if (unsupportedEvent(event_name)) throw `This event (${event_name}) is unsupported. Simple Diff only supports PUSH and PR events.`;
@@ -39,9 +39,8 @@ const failed = massage => { throw message; };
       return;
     }
     
-    strict === true
-      ? failed(`None of the files in this commits diff tree match the provided file (${path}).`)
-      : console.log(`None of the files in this commits diff tree match the provided file (${path}).`);
+    if (strict === true) throw `None of the files in this commits diff tree match the provided file (${path}).`;
+    console.log(`None of the files in this commits diff tree match the provided file (${path}).`);
            
   } catch (error) {
     core.setFailed(error);
