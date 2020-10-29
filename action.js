@@ -27,7 +27,7 @@ const setFromPath = octokit => owner => async repo => {
     if (!path) throw new Error(`No path specified within the workflow file for this (${event_name}) event.`);
     
     console.log(`Using the specified path (${path}), for this ${event_name} event`);
-    return path;
+    return normalise(path);
   } catch(error) {
     console.error(error.message);
     return undefined;
@@ -64,8 +64,8 @@ const setFromPath = octokit => owner => async repo => {
     core.setOutput("previous", file ? file.previous_filename || file.filename : target);
     
     if (file) return;
-    if (strict) throw `None of the files in this commits diff tree match the provided file (${path}).`;
-    console.log(`None of the files in this commits diff tree match the provided file (${path}).`);
+    if (strict) throw `None of the files in this commits diff tree match the provided file (${target}).`;
+    console.log(`None of the files in this commits diff tree match the provided file (${target}).`);
            
   } catch (error) {
     core.setFailed(error);
