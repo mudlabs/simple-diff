@@ -22,3 +22,4 @@ jobs:
           echo "Removed? ${{ steps.diff.outputs.removed }}"
           echo "Renamed? ${{ steps.diff.outputs.renamed }}"
           echo "Name: ${{ steps.diff.outputs.name }}"
+          echo "Previous: ${{ steps.diff.outputs.previous }}"
