@@ -17,10 +17,13 @@ const setFromPath = octokit => owner => async repo => {
     
     console.warn("No path provided. Attempting to discern a path from the workflow file.");
     
+    const event_name = github.context.eventName;
     const workflows = await octokit.request("GET /repos/:owner/:repo/actions/workflows", { owner, repo });
     const workflow = workflows.data.workflows.find(workflow => workflow.name === process.env.GITHUB_WORKFLOW);
     const file = await fs.promises.readFile(workflow.path);
     const data = yaml.safeLoad(file);
+    
+    if (!data.on[event_name].path) throw new Error("No path specified within the workflow file");
     
     
     console.log(workflow, file, data);
