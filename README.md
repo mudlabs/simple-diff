@@ -19,7 +19,7 @@ Very simple, you provide the action with a `path` to a _file_ or _folder_, and i
 ## Usage
 ```yaml
 - name: Simple Diff
-  uses: mudlabs/simple-diff@v1.0.2
+  uses: mudlabs/simple-diff@v1.1.0
   with:
     path: path/to/file   
 ```
@@ -58,7 +58,7 @@ jobs:
       - uses: actions/checkout@v2
       - name: Simple Diff
         id: diff
-        uses: mudlabs/simple-diff@v1.0.2
+        uses: mudlabs/simple-diff@v1.1.0
         with:
           path: path/to/my/file.ext
       - run: exit 1
