@@ -23,7 +23,7 @@ const setFromPath = octokit => owner => async repo => {
     const data = yaml.safeLoad(file);
     
     
-    console.log(workflow, file, data);
+    console.log(workflow, file, data, data.on);
     return undefined;
   } catch(error) {
     console.error(error.message);
