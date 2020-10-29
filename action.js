@@ -28,14 +28,14 @@ const toBoolean = value => value.toLowerCase() == "true";
     
     const target = normalise(path);
     const files = response.data.files;
-    files.forEach(file => console.log(file));
     const file = files.find(file => decodeURIComponent(file.contents_url).indexOf(`contents/${target}`) !== -1);
     
+    core.setOutput("name", file ? file.filename : target);
     core.setOutput("added", file ? file.status === "added" : false);
-    core.setOutput("modified", file ? file.status === "modified" : false);
     core.setOutput("removed", file ? file.status === "removed" : false);
     core.setOutput("renamed", file ? file.status === "renamed" : false);
-    core.setOutput("name", file ? file.filename : target);
+    core.setOutput("modified", file ? file.status === "modified" : false);
+    core.setOutput("previous", file ? file.previous_filename || file.filename : target);
     
     if (file) return;
     if (strict) throw `None of the files in this commits diff tree match the provided file (${path}).`;
