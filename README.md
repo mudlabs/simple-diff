@@ -19,7 +19,7 @@ Very simple, you provide the action with a `path` to a _file_ or _folder_, and i
 ## Usage
 ```yaml
 - name: Simple Diff
-  uses: mudlabs/simple-diff@v1.0.1
+  uses: mudlabs/simple-diff@v1.0.2
   with:
     path: path/to/file   
 ```
