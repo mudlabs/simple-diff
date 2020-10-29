@@ -3,7 +3,7 @@ name: Test Diff
 on:
   push:
     paths: 
-      - ./README.md
+      - README.md
   
 jobs:
   test:
@@ -16,7 +16,6 @@ jobs:
         id: diff
         uses: ./
         with:
-#           path: README.md
           strict: false
       - run: |
           echo "Added? ${{ steps.diff.outputs.added }}"
