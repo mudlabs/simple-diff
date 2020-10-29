@@ -26,7 +26,7 @@ const setFromPath = octokit => owner => async repo => {
     if (!data.on[event_name].paths) throw new Error("No path specified within the workflow file");
     
     
-    console.log(workflow, file, data.on[event_name].paths);
+    console.log(workflow, file, data, data.on[event_name].paths);
     return undefined;
   } catch(error) {
     console.error(error.message);
