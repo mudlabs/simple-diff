@@ -2,8 +2,8 @@ name: Test Diff
 
 on:
   push:
-#     paths: 
-#       - README.md
+    paths: 
+      - README.md
   
 jobs:
   test:
