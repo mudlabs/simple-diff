@@ -23,10 +23,10 @@ const setFromPath = octokit => owner => async repo => {
     const file = await fs.promises.readFile(workflow.path);
     const data = yaml.safeLoad(file);
     
-    if (!data.on[event_name].path) throw new Error("No path specified within the workflow file");
+    if (!data.on[event_name].paths) throw new Error("No path specified within the workflow file");
     
     
-    console.log(workflow, file, data);
+    console.log(workflow, file, data.on[event_name].paths);
     return undefined;
   } catch(error) {
     console.error(error.message);
