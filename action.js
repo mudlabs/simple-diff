@@ -12,8 +12,8 @@ const toBoolean = value => value.toLowerCase() == "true";
 
 const setFromPath = octokit => owner => async repo => {
   try {
-    const path = core.getInput("path");
-    if (path) return normalise(path);
+    const input_path = core.getInput("path");
+    if (input_path) return normalise(input_path);
     
     console.warn("No path provided. Attempting to discern a path from the workflow file.");
     
@@ -22,9 +22,12 @@ const setFromPath = octokit => owner => async repo => {
     const workflow = workflows.data.workflows.find(workflow => workflow.name === process.env.GITHUB_WORKFLOW);
     const file = await fs.promises.readFile(workflow.path);
     const data = yaml.safeLoad(file);
+    const path = data.on[event_name].paths ? data.on[event_name].paths[0] : undefined;
     
-    if (!data.on[event_name].paths) throw new Error("No path specified within the workflow file for this event (${event_name})");
-    return data.on[event_name].paths[0];
+    if (!path) throw new Error(`No path specified within the workflow file for this (${event_name}) event.`);
+    
+    console.log(`Using the specified path (${path}), for this ${event_name} event`);
+    return path;
   } catch(error) {
     console.error(error.message);
     return undefined;
