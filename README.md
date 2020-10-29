@@ -38,6 +38,7 @@ Very simple, you provide the action with a `path` to a _file_ or _folder_, and i
 | `removed` | boolean | Specifies the file or folder was removed. |
 | `renamed` | boolean | Specifies the file or folder was renamed. |
 | `name` | string | Specifies the name of the file or folder. |
+| `previous` | string | Specifies the previous file name, or its name. |
 
 ## Example Case
 You have a workflow that only runs on a push event to a file path. But you don't want it to run if the file was `removed` _(deleted)_.
