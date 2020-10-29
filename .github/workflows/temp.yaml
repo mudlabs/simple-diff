@@ -1,0 +1,22 @@
+on:
+  push:
+  
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          ref: ${{ github.ref }}
+      - name: Simple Diff
+        id: diff
+        uses: ./
+        with:
+          strict: false
+      - run: |
+          echo "Added? ${{ steps.diff.outputs.added }}"
+          echo "Modified? ${{ steps.diff.outputs.modified }}"
+          echo "Removed? ${{ steps.diff.outputs.removed }}"
+          echo "Renamed? ${{ steps.diff.outputs.renamed }}"
+          echo "Name: ${{ steps.diff.outputs.name }}"
+          echo "Previous: ${{ steps.diff.outputs.previous }}"
