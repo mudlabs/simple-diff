@@ -18,7 +18,7 @@ const setFromPath = octokit => owner => async repo => {
     const workflow_filename = process.env.GITHUB_WORKFLOW;
     const workflows = await octokit.request(
       "GET /repos/:owner/:repo/actions/workflows/:workflow_filename",
-      { owner, repo, workflow_file_name }
+      { owner, repo, workflow_filename }
     );
     
     console.log(workflow_filename, workflows, workflows.data);
