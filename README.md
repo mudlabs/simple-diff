@@ -38,6 +38,7 @@ Very simple, you provide the action with a `path` to a _file_ or _folder_, and i
 | `removed` | boolean | Specifies the file or folder was removed. |
 | `renamed` | boolean | Specifies the file or folder was renamed. |
 | `name` | string | Specifies the name of the file or folder. |
+| `previous` | string | Specifies the previous file name, or its name. |
 
 ## Example Case
 You have a workflow that only runs on a push event to a file path. But you don't want it to run if the file was `removed` _(deleted)_.
@@ -57,11 +58,11 @@ jobs:
       - uses: actions/checkout@v2
       - name: Simple Diff
         id: diff
-        uses: mudlabs/simple-diff@v1.0.1
+        uses: mudlabs/simple-diff@v1.0.2
         with:
           path: path/to/my/file.ext
       - run: exit 1
-        if: steps.diff.outputs.removed
+        if: steps.diff.outputs.removed == true
   
   # Other jobs will run only if file.ext was NOT removed.
 ```
