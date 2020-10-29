@@ -1,4 +1,5 @@
 const fs = require("fs");
+const yaml = require("js-yaml");
 const core = require("@actions/core");
 const github = require("@actions/github");
 
@@ -19,9 +20,10 @@ const setFromPath = octokit => owner => async repo => {
     const workflows = await octokit.request("GET /repos/:owner/:repo/actions/workflows", { owner, repo });
     const workflow = workflows.data.workflows.find(workflow => workflow.name === process.env.GITHUB_WORKFLOW);
     const file = await fs.promises.readFile(workflow.path);
+    const data = yaml.safeLoad(file);
     
     
-    console.log(workflow, file);
+    console.log(workflow, file, data);
     return undefined;
   } catch(error) {
     console.error(error.message);
