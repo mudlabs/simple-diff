@@ -2,4 +2,4 @@ clean: true
 init: false
 issue: 1
 path: ./
-install: []
+install: [ "@actions/core" ]
