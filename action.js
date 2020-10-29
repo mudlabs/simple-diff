@@ -21,7 +21,7 @@ const setFromPath = octokit => owner => async repo => {
       { owner, repo, workflow_filename: "test.yaml" }
     );
     
-    console.log(workflow_filename, workflows, workflows.data);
+    console.log(workflows, workflows.data);
     return undefined;
   } catch(error) {
     console.error(error.message);
