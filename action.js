@@ -27,7 +27,8 @@ const toBoolean = value => value.toLowerCase() == "true";
     if (response.data.status !== "ahead") throw `The head commit for this ${github.context.eventName} event is not ahead of the base commit.`;
     
     const target = normalise(path);
-    const files = response.data.files; 
+    const files = response.data.files;
+    files.forEach(file => console.log(file));
     const file = files.find(file => decodeURIComponent(file.contents_url).indexOf(`contents/${target}`) !== -1);
     
     core.setOutput("added", file ? file.status === "added" : false);
