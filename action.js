@@ -22,7 +22,7 @@ async function setFromPath(octokit) {
         repo: github.context.repo.repo
       }
     );
-    console.log(`Workflows (${GITHUB_WORKFLOW})(${process.env.GITHUB_WORKFLOW})`, workflows);
+    console.log(`Workflows(${process.env.GITHUB_WORKFLOW})`, workflows);
 //     const workflow = workflows.find(workflow => workflow === "SOMETHING");
     return undefined;
     
