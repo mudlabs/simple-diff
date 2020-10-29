@@ -7,28 +7,19 @@ const getHead = name => data => name === "pull_request" ? data.pull_request.head
 const normalise = path => path.split("/").filter(item => item !== "" && item !== ".").join("/");
 const toBoolean = value => value.toLowerCase() == "true";
 
-async function setFromPath(octokit) {
+
+const setFromPath = octokit => owner => async repo => {
   try {
     const path = core.getInput("path");
-    
     if (path) return normalise(path);
     
-    console.log("No path provided. Attempting to discern a path from the workflow file.");
+    console.warn("No path provided. Attempting to discern a path from the workflow file.");
     
-    const workflows = await octokit.request(
-      "GET /repos/:owner/:repo/actions/workflows/:workflow_name",
-      {
-        owner: github.context.repo.owner,
-        repo: github.context.repo.repo,
-        workflow_name: process.env.GITHUB_WORKFLOW
-      }
-    );
-    console.log(`Workflows (${process.env.GITHUB_WORKFLOW})`, workflows.body);
-//     const workflow = workflows.find(workflow => workflow === "SOMETHING");
+    const workflows = await octokit.request("GET /repos/:owner/:repo/actions/workflows", { owner, repo });
+    console.log(workflows, workflows.body);
     return undefined;
-    
-  } catch (error) {
-    console.error(error.message)
+  } catch(error) {
+    console.error(error.message);
     return undefined;
   }
 }
@@ -51,7 +42,7 @@ async function setFromPath(octokit) {
     if (response.status !== 200) throw `The API request for this ${github.context.eventName} event returned ${response.status}, expected 200.`;
     if (response.data.status !== "ahead") throw `The head commit for this ${github.context.eventName} event is not ahead of the base commit.`;
     
-    const target = await setFromPath(octokit);
+    const target = await setFromPath(octokit)(owner)(repo);
     const files = response.data.files;
     const file = files.find(file => decodeURIComponent(file.contents_url).indexOf(`contents/${target}`) !== -1);
     
