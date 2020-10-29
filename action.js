@@ -16,13 +16,13 @@ async function setFromPath(octokit) {
     console.log("No path provided. Attempting to discern a path from the workflow file.");
     
     const workflows = await octokit.request(
-      "GET repos/:owner/:repo/actions/workflows",
+      "GET /repos/:owner/:repo/actions/workflows",
       {
         owner: github.context.repo.owner,
         repo: github.context.repo.repo
       }
     );
-    console.log("Workflows", workflows);
+    console.log(`Workflows (${GITHUB_WORKFLOW})(${process.env.GITHUB_WORKFLOW})`, workflows);
 //     const workflow = workflows.find(workflow => workflow === "SOMETHING");
     return undefined;
     
