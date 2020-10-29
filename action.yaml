@@ -29,3 +29,5 @@ outputs:
     description: Specifies the item was renamed.
   name:
     description: Specifies the item name.
+  previous:
+    description: The files previous name, or its name.
