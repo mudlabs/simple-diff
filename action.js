@@ -10,8 +10,7 @@ const getHead = name => data => name === "pull_request" ? data.pull_request.head
 const normalise = path => path.split("/").filter(item => item !== "" && item !== ".").join("/");
 const toBoolean = value => value.toLowerCase() == "true";
 
-
-const setFromPath = octokit => owner => async repo => {
+const setFromPath = owner => repo => async octokit => {
   try {
     const input_path = core.getInput("path");
     if (input_path) return normalise(input_path);
@@ -37,10 +36,10 @@ const setFromPath = octokit => owner => async repo => {
 
 const contentsUrlDoesMatch = file => target => {
   const contents_url = decodeURIComponent(file.contents_url);
-  const contents_path = contents_url.substring(contents_url.indexOf("contents/"), contents_url.indexOf("?ref="));
-  const doesMatch = minimatch(contents_path, `contents/${target}`);
-  console.log(contents_path, `contents/${target}`, doesMatch);
-  return doesMatch;
+  const start = contents_url.indexOf("contents/");
+  const end = contents_url.indexOf("?ref=");
+  const contents_path = contents_url.substring(start, end);
+  return minimatch(contents_path, `contents/${target}`);
 };
 
 (async function(){
@@ -61,10 +60,9 @@ const contentsUrlDoesMatch = file => target => {
     if (response.status !== 200) throw `The API request for this ${github.context.eventName} event returned ${response.status}, expected 200.`;
     if (response.data.status !== "ahead") throw `The head commit for this ${github.context.eventName} event is not ahead of the base commit.`;
     
-    const target = await setFromPath(octokit)(owner)(repo);
     const files = response.data.files;
+    const target = await setFromPath(owner)(repo)(octokit);
     const file = files.find(file => contentsUrlDoesMatch(file)(target));
-//     decodeURIComponent(file.contents_url).indexOf(`contents/${target}`) !== -1);
     
     core.setOutput("name", file ? file.filename : target);
     core.setOutput("added", file ? file.status === "added" : false);
