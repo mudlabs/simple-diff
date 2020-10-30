@@ -1,6 +1,7 @@
 const fs = require("fs");
 const yaml = require("js-yaml");
 const core = require("@actions/core");
+const minimatch = require("minimatch");
 const github = require("@actions/github");
 
 const unsupportedEvent = name => name !== "pull_request" && name !== "push" ? true : false;
@@ -34,6 +35,13 @@ const setFromPath = octokit => owner => async repo => {
   }
 }
 
+const contentsUrlDoesMatch = file => target => {
+  const contents_url = decodeURIComponent(file.contents_url);
+  const contents_path = contents_url.substring(contents_url.indexOf("contents/"));
+  const doesMatch = minimatch(contents_url, `contents/${target}`);
+  return doesMatch;
+};
+
 (async function(){
   try {
     const token = core.getInput("token");
@@ -54,7 +62,8 @@ const setFromPath = octokit => owner => async repo => {
     
     const target = await setFromPath(octokit)(owner)(repo);
     const files = response.data.files;
-    const file = files.find(file => decodeURIComponent(file.contents_url).indexOf(`contents/${target}`) !== -1);
+    const file = files.find(file => contentsUrlDoesMatch(file)(target));
+//     decodeURIComponent(file.contents_url).indexOf(`contents/${target}`) !== -1);
     
     core.setOutput("name", file ? file.filename : target);
     core.setOutput("added", file ? file.status === "added" : false);
