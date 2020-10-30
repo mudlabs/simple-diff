@@ -1,4 +1,7 @@
+const fs = require("fs");
+const yaml = require("js-yaml");
 const core = require("@actions/core");
+const minimatch = require("minimatch");
 const github = require("@actions/github");
 
 const unsupportedEvent = name => name !== "pull_request" && name !== "push" ? true : false;
@@ -7,9 +10,40 @@ const getHead = name => data => name === "pull_request" ? data.pull_request.head
 const normalise = path => path.split("/").filter(item => item !== "" && item !== ".").join("/");
 const toBoolean = value => value.toLowerCase() == "true";
 
+const setFromPath = owner => repo => async octokit => {
+  try {
+    const input_path = core.getInput("path");
+    if (input_path) return normalise(input_path);
+    
+    console.warn("No path provided. Attempting to discern a path from the workflow file.");
+    
+    const event_name = github.context.eventName;
+    const workflows = await octokit.request("GET /repos/:owner/:repo/actions/workflows", { owner, repo });
+    const workflow = workflows.data.workflows.find(workflow => workflow.name === process.env.GITHUB_WORKFLOW);
+    const file = await fs.promises.readFile(workflow.path);
+    const data = yaml.safeLoad(file);
+    const path = data.on[event_name] && data.on[event_name].paths ? data.on[event_name].paths[0] : undefined;
+    
+    if (!path) throw new Error(`No path specified within the workflow file for this (${event_name}) event.`);
+    
+    console.log(`Using the specified path (${path}), for this ${event_name} event`);
+    return normalise(path);
+  } catch(error) {
+    console.error(error.message);
+    return undefined;
+  }
+}
+
+const contentsUrlDoesMatch = file => target => {
+  const contents_url = decodeURIComponent(file.contents_url);
+  const start = contents_url.indexOf("contents/");
+  const end = contents_url.indexOf("?ref=");
+  const contents_path = contents_url.substring(start, end);
+  return minimatch(contents_path, `contents/${target}`);
+};
+
 (async function(){
   try {
-    const path = core.getInput("path");
     const token = core.getInput("token");
     const repo = github.context.repo.repo;
     const owner = github.context.repo.owner;
@@ -26,9 +60,9 @@ const toBoolean = value => value.toLowerCase() == "true";
     if (response.status !== 200) throw `The API request for this ${github.context.eventName} event returned ${response.status}, expected 200.`;
     if (response.data.status !== "ahead") throw `The head commit for this ${github.context.eventName} event is not ahead of the base commit.`;
     
-    const target = normalise(path);
     const files = response.data.files;
-    const file = files.find(file => decodeURIComponent(file.contents_url).indexOf(`contents/${target}`) !== -1);
+    const target = await setFromPath(owner)(repo)(octokit);
+    const file = files.find(file => contentsUrlDoesMatch(file)(target));
     
     core.setOutput("name", file ? file.filename : target);
     core.setOutput("added", file ? file.status === "added" : false);
@@ -38,8 +72,8 @@ const toBoolean = value => value.toLowerCase() == "true";
     core.setOutput("previous", file ? file.previous_filename || file.filename : target);
     
     if (file) return;
-    if (strict) throw `None of the files in this commits diff tree match the provided file (${path}).`;
-    console.log(`None of the files in this commits diff tree match the provided file (${path}).`);
+    if (strict) throw `None of the files in this commits diff tree match the provided file (${target}).`;
+    console.log(`None of the files in this commits diff tree match the provided file (${target}).`);
            
   } catch (error) {
     core.setFailed(error);

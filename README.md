@@ -19,7 +19,7 @@ Very simple, you provide the action with a `path` to a _file_ or _folder_, and i
 ## Usage
 ```yaml
 - name: Simple Diff
-  uses: mudlabs/simple-diff@v1.1.0
+  uses: mudlabs/simple-diff@v1.2.0
   with:
     path: path/to/file   
 ```
@@ -27,7 +27,7 @@ Very simple, you provide the action with a `path` to a _file_ or _folder_, and i
 ## Inputs
 | Input | Description | Default |
 | --- | :--- | --- |
-| `path` | Specifies a path from _root_ to the file or folder you want to check. | |
+| `path` | Specifies a path from the _root_ of your repository to the file or folder you want to check. If not provided the action will try to find a path specification from the workflow file itself. The path can be a `glob` string. | |
 | `strict` | Specifies the action should fail if the `path` is not in the commits diff tree. | `true` |
 
 ## Outputs
@@ -42,6 +42,7 @@ Very simple, you provide the action with a `path` to a _file_ or _folder_, and i
 
 ## Example Case
 You have a workflow that only runs on a push event to a file path. But you don't want it to run if the file was `removed` _(deleted)_.
+  - _Note:_ In this example we do not specify the path property. If your workflow is conditioned to only run when changes to a given path occure, you don't need to provide the action with the file path. _(assuming that's the file path you want to check)_.
 
 ```yaml
 name: My File Workflow
@@ -57,10 +58,8 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Simple Diff
+        uses: mudlabs/simple-diff@v1.2.0
         id: diff
-        uses: mudlabs/simple-diff@v1.1.0
-        with:
-          path: path/to/my/file.ext
       - run: exit 1
         if: steps.diff.outputs.removed == true
   
