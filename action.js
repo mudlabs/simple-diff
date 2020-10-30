@@ -37,9 +37,9 @@ const setFromPath = octokit => owner => async repo => {
 
 const contentsUrlDoesMatch = file => target => {
   const contents_url = decodeURIComponent(file.contents_url);
-  const contents_path = contents_url.substring(contents_url.indexOf("contents/"));
-  const doesMatch = minimatch(contents_url, `contents/${target}`);
-  console.log(contents_url, `contents/${target}`, doesMatch);
+  const contents_path = contents_url.substring(contents_url.indexOf("contents/"), contents_url.indexOf("?ref="));
+  const doesMatch = minimatch(contents_path, `contents/${target}`);
+  console.log(contents_path, `contents/${target}`, doesMatch);
   return doesMatch;
 };
 
