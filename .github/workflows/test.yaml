@@ -17,6 +17,7 @@ jobs:
         uses: ./
         with:
           strict: false
+          path: 'READ*.md'
       - run: |
           echo "Added? ${{ steps.diff.outputs.added }}"
           echo "Modified? ${{ steps.diff.outputs.modified }}"
