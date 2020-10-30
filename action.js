@@ -39,6 +39,7 @@ const contentsUrlDoesMatch = file => target => {
   const contents_url = decodeURIComponent(file.contents_url);
   const contents_path = contents_url.substring(contents_url.indexOf("contents/"));
   const doesMatch = minimatch(contents_url, `contents/${target}`);
+  console.log(contents_url, `contents/${target}`, doesMatch);
   return doesMatch;
 };
 
